@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obstacle Avoider Robot</title>
+<style>
+body{margin:0;font-family:Poppins;background:#0d1117;color:#e6edf3}
+header,footer{background:#161b22;color:#58a6ff;text-align:center;padding:20px}
+.container{max-width:900px;margin:40px auto;background:#161b22;border-radius:10px;padding:30px}
+h2{color:#ffcc00}
+pre{background:#000;color:#00ff99;padding:20px;border-radius:8px;overflow-x:auto;font-family:"Courier New";font-size:15px}
+.btn-group{display:flex;justify-content:center;gap:15px;margin-top:25px}
+.btn{padding:10px 20px;border:none;border-radius:25px;color:white;cursor:pointer;font-weight:600;transition:all .3s}
+.btn-back{background:linear-gradient(90deg,#ff4d4d,#ff9900)}
+.btn-download{background:linear-gradient(90deg,#007bff,#00d4ff)}
+.btn-edit{background:linear-gradient(90deg,#4CAF50,#00FF99)}
+.btn-copy{background:linear-gradient(90deg,#9b59b6,#8e44ad)}
+</style>
+</head>
+<body>
+<header>🤖 Obstacle Avoider Robot</header>
+<div class="container">
+<h2>📘 Description</h2>
+<p>This robot automatically avoids obstacles using an ultrasonic sensor and Arduino. It is ideal for intermediate-level robotics learners.</p>
+
+<h2>🔧 Components</h2>
+<ul>
+<li>Arduino Uno</li>
+<li>Ultrasonic Sensor (HC-SR04)</li>
+<li>Servo Motor</li>
+<li>Motor Driver L293D</li>
+<li>DC Motors and Chassis</li>
+</ul>
+
+<h2>💻 Code</h2>
+<pre id="codeBox">
+// Obstacle Avoider Robot Code
+#include <Servo.h>
+Servo servo;
+int trig=9, echo=10, motor1=4, motor2=5, motor3=6, motor4=7;
+long duration; int distance;
+
+void setup() {
+  servo.attach(3);
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+  pinMode(motor1, OUTPUT); pinMode(motor2, OUTPUT);
+  pinMode(motor3, OUTPUT); pinMode(motor4, OUTPUT);
+  servo.write(90);
+  Serial.begin(9600);
+}
+
+void loop() {
+  distance = getDistance();
+  if(distance < 15) {
+    stopMotors();
+    servo.write(0);
+    delay(500);
+    int left = getDistance();
+    servo.write(180);
+    delay(500);
+    int right = getDistance();
+    servo.write(90);
+    if(left > right) turnLeft();
+    else turnRight();
+  } else moveForward();
+}
+
+int getDistance(){
+  digitalWrite(trig, LOW); delayMicroseconds(2);
+  digitalWrite(trig, HIGH); delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  duration = pulseIn(echo, HIGH);
+  return duration*0.034/2;
+}
+
+void moveForward(){
+  digitalWrite(motor1,HIGH);digitalWrite(motor2,LOW);
+  digitalWrite(motor3,HIGH);digitalWrite(motor4,LOW);
+}
+
+void stopMotors(){
+  digitalWrite(motor1,LOW);digitalWrite(motor2,LOW);
+  digitalWrite(motor3,LOW);digitalWrite(motor4,LOW);
+}
+
+void turnLeft(){
+  digitalWrite(motor1,LOW);digitalWrite(motor2,HIGH);
+  digitalWrite(motor3,HIGH);digitalWrite(motor4,LOW);
+  delay(600); stopMotors();
+}
+
+void turnRight(){
+  digitalWrite(motor1,HIGH);digitalWrite(motor2,LOW);
+  digitalWrite(motor3,LOW);digitalWrite(motor4,HIGH);
+  delay(600); stopMotors();
+}
+</pre>
+
+<div class="btn-group">
+<button class="btn btn-back" onclick="goBack()">⬅ Back</button>
+<button class="btn btn-copy" onclick="copyCode()">📋 Copy</button>
+<button class="btn btn-download" onclick="downloadCode()">⬇ Download</button>
+<button class="btn btn-edit" onclick="toggleEdit()">✏ Edit</button>
+</div>
+</div>
+
+<footer>© 2025 Robotics Project Gallery | Obstacle Avoider</footer>
+
+<script>
+const box=document.getElementById('codeBox');
+function goBack(){window.location.href='../index.html'}
+function copyCode(){navigator.clipboard.writeText(box.innerText);alert('✅ Code copied!')}
+function downloadCode(){const blob=new Blob([box.innerText],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='obstacle_avoider.txt';a.click()}
+function toggleEdit(){box.contentEditable=box.contentEditable==='true'?'false':'true';alert(box.contentEditable==='true'?'📝 Edit mode ON':'💾 Edit mode OFF')}
+</script>
+</body>
+</html>
