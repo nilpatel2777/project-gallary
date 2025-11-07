@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🤖 Robotics Project Gallery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <h1>🤖 Robotics Project Gallery</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <!-- CATEGORY FILTER BAR -->
+  <section class="categories">
+    <button class="filter-btn active" data-filter="all">All Projects</button>
+    <button class="filter-btn" data-filter="easy">Easy</button>
+    <button class="filter-btn" data-filter="medium">Medium</button>
+    <button class="filter-btn" data-filter="hard">Hard</button>
+  </section>
+
+  <!-- PROJECT GRID -->
+  <main class="project-gallery">
+    <div class="project-card easy">
+      <img src="images/line_follower.jpg" alt="Line Follower Robot">
+      <h3>Line Follower Robot</h3>
+      <p>Level: Easy</p>
+      <a href="projects/line_follower.html" class="btn">View Project</a>
+    </div>
+
+    <div class="project-card medium">
+      <img src="images/robot.jpg" alt="Obstacle Avoider Robot">
+      <h3>Obstacle Avoider Robot</h3>
+      <p>Level: Medium</p>
+      <a href="projects/obstacle_avoider.html" class="btn">View Project</a>
+    </div>
+
+    <div class="project-card hard">
+      <img src="images/controlcar.jpg" alt="Bluetooth Controlled Car">
+      <h3>Bluetooth Controlled Car</h3>
+      <p>Level: Hard</p>
+      <a href="projects/bluetooth_car.html" class="btn">View Project</a>
+    </div>
+
+    <div class="project-card medium">
+      <img src="images/voice.jpg" alt="Voice Controlled Robot">
+      <h3>Voice Controlled Robot</h3>
+      <p>Level: Medium</p>
+      <a href="projects/voice_control.html" class="btn">View Project</a>
+    </div>
+
+    <div class="project-card easy">
+      <img src="images/smart.jpg" alt="Smart Irrigation" />
+      <h3>Smart Irrigation System</h3>
+      <p>Level: Easy</p>
+      <a href="projects/smart_irrigation.html" class="btn">View Project</a>
+    </div>
+
+    <div class="project-card medium">
+      <img src="images/home.jpg" alt="Home Automation" />
+      <h3>IoT Home Automation</h3>
+      <p>Level: Medium </p>
+      <a href="projects/home_automation.html" class="btn">View Project</a>
+    </div>
+
+   
+    <div class="project-card medium">
+      <img src="images/monitoring.jpg" alt="Weather System" />
+      <h3>Weather Monitoring System</h3>
+      <p>Level: Medium </p>
+      <a href="projects/weather_monitoring.html" class="btn">View Project</a>
+    </div>
+
+    <div class="project-card easy">
+      <img src="images/light.jpg" alt="Light Follower Robot">
+      <h3>Light Follower Robot</h3>
+      <p>Level: Easy</p>
+      <a href="projects/light_follower.html" class="btn">View Project</a>
+    </div>
+
+    <div class="project-card hard">
+      <img src="images/wifi_robot.jpg" alt="Wi-Fi Controlled Robot">
+      <h3>Wi-Fi Controlled Robot</h3>
+      <p>Level: Hard</p>
+      <a href="projects/wifi_robot.html" class="btn">View Project</a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Robotics Project Gallery | Designed for Students</p>
+  </footer>
+
+  <script>
+    // FILTER FUNCTIONALITY
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const projects = document.querySelectorAll(".project-card");
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const category = button.getAttribute("data-filter");
+
+        filterButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        projects.forEach(project => {
+          if (category === "all" || project.classList.contains(category)) {
+            project.style.display = "block";
+          } else {
+            project.style.display = "none";
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Details</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 id="project-title">Project Details</h1>
+  </header>
+
+  <main class="project-details">
+    <pre id="project-code" contenteditable="true"></pre>
+    <button id="download-btn">⬇️ Download Code</button>
+  </main>
+
+  <footer>
+    <p>© 2025 Robotics Project Gallery</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const projectId = parseInt(params.get("id"));
+    const project = projects.find(p => p.id === projectId);
+
+    if (project) {
+      document.getElementById("project-title").textContent = project.title;
+      document.getElementById("project-code").textContent = project.code;
+    }
+
+    // Download Code
+    document.getElementById("download-btn").addEventListener("click", () => {
+      const blob = new Blob(
+        [document.getElementById("project-code").innerText],
+        { type: "text/plain" }
+      );
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `${project.title.replace(/\s+/g, "_")}.txt`;
+      a.click();
+    });
+  </script>
+</body>
+</html>
