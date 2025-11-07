@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Line Follower Robot | Robotics Project Gallery</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: #0d1117;
+      color: #e6edf3;
+    }
+
+    header {
+      background-color: #161b22;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      color: #58a6ff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #161b22;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #00d4ff;
+      text-align: center;
+    }
+
+    h2 {
+      color: #ffcc00;
+    }
+
+    ul {
+      line-height: 1.6;
+    }
+
+    pre {
+      background-color: #000000;
+      color: #00ff99;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      transition: background 0.3s;
+    }
+
+    pre.editable {
+      background-color: #1a1a1a;
+      color: #00ffcc;
+      outline: none;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-back {
+      background: linear-gradient(90deg, #ff4d4d, #ff9900);
+    }
+
+    .btn-download {
+      background: linear-gradient(90deg, #007bff, #00d4ff);
+    }
+
+    .btn-edit {
+      background: linear-gradient(90deg, #4CAF50, #00FF99);
+    }
+
+    .btn-copy {
+      background: linear-gradient(90deg, #9b59b6, #8e44ad);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #161b22;
+      color: #8b949e;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>🤖 Line Follower Robot</header>
+
+  <div class="container">
+    <h2>📘 Description</h2>
+    <p>This robot follows a black line using IR sensors and Arduino Uno. It's an excellent beginner robotics project.</p>
+
+    <h2>🔧 Components</h2>
+    <ul>
+      <li>Arduino Uno</li>
+      <li>IR Sensor Module (2)</li>
+      <li>DC Motors (2)</li>
+      <li>L293D Motor Driver</li>
+      <li>Battery Pack & Chassis</li>
+    </ul>
+
+    <h2>💻 Code</h2>
+    <pre id="codeBox" contenteditable="false">
+// Line Follower Robot
+int leftSensor = 2;
+int rightSensor = 3;
+int leftMotor1 = 4;
+int leftMotor2 = 5;
+int rightMotor1 = 6;
+int rightMotor2 = 7;
+
+void setup() {
+  pinMode(leftSensor, INPUT);
+  pinMode(rightSensor, INPUT);
+  pinMode(leftMotor1, OUTPUT);
+  pinMode(leftMotor2, OUTPUT);
+  pinMode(rightMotor1, OUTPUT);
+  pinMode(rightMotor2, OUTPUT);
+}
+
+void loop() {
+  int leftValue = digitalRead(leftSensor);
+  int rightValue = digitalRead(rightSensor);
+
+  if(leftValue == 0 && rightValue == 0){
+    // Move Forward
+    digitalWrite(leftMotor1, HIGH);
+    digitalWrite(leftMotor2, LOW);
+    digitalWrite(rightMotor1, HIGH);
+    digitalWrite(rightMotor2, LOW);
+  }
+  else if(leftValue == 1 && rightValue == 0){
+    // Turn Right
+    digitalWrite(leftMotor1, LOW);
+    digitalWrite(leftMotor2, LOW);
+    digitalWrite(rightMotor1, HIGH);
+    digitalWrite(rightMotor2, LOW);
+  }
+  else if(leftValue == 0 && rightValue == 1){
+    // Turn Left
+    digitalWrite(leftMotor1, HIGH);
+    digitalWrite(leftMotor2, LOW);
+    digitalWrite(rightMotor1, LOW);
+    digitalWrite(rightMotor2, LOW);
+  }
+  else{
+    // Stop
+    digitalWrite(leftMotor1, LOW);
+    digitalWrite(leftMotor2, LOW);
+    digitalWrite(rightMotor1, LOW);
+    digitalWrite(rightMotor2, LOW);
+  }
+}
+    </pre>
+
+    <div class="btn-group">
+      <button class="btn btn-back" onclick="goBack()">⬅ Back</button>
+      <button class="btn btn-copy" onclick="copyCode()">📋 Copy</button>
+      <button class="btn btn-download" onclick="downloadCode()">⬇ Download</button>
+      <button class="btn btn-edit" onclick="toggleEdit()">✏ Edit</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Robotics Project Gallery | Designed for Students
+  </footer>
+
+  <script>
+    const codeBox = document.getElementById("codeBox");
+
+    function goBack() {
+      window.location.href = "../index.html";
+    }
+
+    function copyCode() {
+      const text = codeBox.innerText;
+      navigator.clipboard.writeText(text);
+      alert("✅ Code copied to clipboard!");
+    }
+
+    function downloadCode() {
+      const code = codeBox.innerText;
+      const blob = new Blob([code], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "line_follower_code.txt";
+      link.click();
+    }
+
+    function toggleEdit() {
+      if (codeBox.contentEditable === "true") {
+        codeBox.contentEditable = "false";
+        codeBox.classList.remove("editable");
+        alert("✏ Editing disabled and saved!");
+      } else {
+        codeBox.contentEditable = "true";
+        codeBox.classList.add("editable");
+        alert("📝 You can now edit the code.");
+      }
+    }
+  </script>
+</body>
+</html>
