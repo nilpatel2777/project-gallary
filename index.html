@@ -1,123 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🤖 Robotics Project Gallery</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <!-- HEADER -->
   <header>
     <h1>🤖 Robotics Project Gallery</h1>
     <nav>
       <a href="#">Home</a>
+      <a href="#">Projects</a>
+      <a href="#">Learn</a>
+      <a href="#">Components</a>
       <a href="#">About</a>
       <a href="#">Contact</a>
     </nav>
   </header>
 
-  <!-- CATEGORY FILTER BAR -->
-  <section class="categories">
-    <button class="filter-btn active" data-filter="all">All Projects</button>
-    <button class="filter-btn" data-filter="easy">Easy</button>
-    <button class="filter-btn" data-filter="medium">Medium</button>
-    <button class="filter-btn" data-filter="hard">Hard</button>
+  <!-- HERO / INTRO SECTION -->
+  <section class="intro">
+    <div class="intro-content">
+      <h2>Explore and Learn Robotics!</h2>
+      <p>
+        Welcome to the <strong>Robotics Project Gallery</strong> — a curated
+        collection of beginner to advanced robotics and IoT projects.
+        Discover how sensors, coding, and creativity combine to build
+        intelligent machines. Whether you’re a student or innovator,
+        start building your ideas today!
+      </p>
+    </div>
   </section>
 
-  <!-- PROJECT GRID -->
-  <main class="project-gallery">
-    <div class="project-card easy">
-      <img src="images/line_follower.jpg" alt="Line Follower Robot">
-      <h3>Line Follower Robot</h3>
-      <p>Level: Easy</p>
-      <a href="projects/line_follower.html" class="btn">View Project</a>
-    </div>
+  <!-- FILTER SIDEBAR + PROJECTS -->
+  <main>
+    <section class="filter-section">
+      <h2>Filter by Difficulty</h2>
+      <div class="filter-options">
+        <label><input type="checkbox" value="easy" class="filter-checkbox"> Easy</label>
+        <p class="desc">Perfect for beginners — minimal coding and circuits.</p>
 
-    <div class="project-card medium">
-      <img src="images/robot.jpg" alt="Obstacle Avoider Robot">
-      <h3>Obstacle Avoider Robot</h3>
-      <p>Level: Medium</p>
-      <a href="projects/obstacle_avoider.html" class="btn">View Project</a>
-    </div>
+        <label><input type="checkbox" value="medium" class="filter-checkbox"> Medium</label>
+        <p class="desc">Intermediate projects combining multiple sensors.</p>
 
-    <div class="project-card hard">
-      <img src="images/controlcar.jpg" alt="Bluetooth Controlled Car">
-      <h3>Bluetooth Controlled Car</h3>
-      <p>Level: Hard</p>
-      <a href="projects/bluetooth_car.html" class="btn">View Project</a>
-    </div>
+        <label><input type="checkbox" value="hard" class="filter-checkbox"> Hard</label>
+        <p class="desc">Advanced robotics with complex logic and IoT.</p>
 
-    <div class="project-card medium">
-      <img src="images/voice.jpg" alt="Voice Controlled Robot">
-      <h3>Voice Controlled Robot</h3>
-      <p>Level: Medium</p>
-      <a href="projects/voice_control.html" class="btn">View Project</a>
-    </div>
+        <button id="clear-filters">Clear All</button>
+      </div>
+    </section>
 
-    <div class="project-card easy">
-      <img src="images/smart.jpg" alt="Smart Irrigation" />
-      <h3>Smart Irrigation System</h3>
-      <p>Level: Easy</p>
-      <a href="projects/smart_irrigation.html" class="btn">View Project</a>
-    </div>
+    <!-- PROJECT GRID -->
+    <section class="project-gallery">
+      <div class="project-card easy">
+        <img src="images/line_follower.jpg" alt="Line Follower Robot" />
+        <h3>Line Follower Robot</h3>
+        <p>Level: Easy</p>
+        <p class="project-desc">
+          Follows a black line path using IR sensors and motor control. Ideal for beginners.
+        </p>
+        <a href="projects/line_follower.html" class="btn">View Project</a>
+      </div>
 
-    <div class="project-card medium">
-      <img src="images/home.jpg" alt="Home Automation" />
-      <h3>IoT Home Automation</h3>
-      <p>Level: Medium </p>
-      <a href="projects/home_automation.html" class="btn">View Project</a>
-    </div>
+      <div class="project-card medium">
+        <img src="images/robot.jpg" alt="Obstacle Avoider Robot" />
+        <h3>Obstacle Avoider Robot</h3>
+        <p>Level: Medium</p>
+        <p class="project-desc">
+          Uses ultrasonic sensors to detect and avoid obstacles autonomously.
+        </p>
+        <a href="projects/obstacle_avoider.html" class="btn">View Project</a>
+      </div>
 
-   
-    <div class="project-card medium">
-      <img src="images/monitoring.jpg" alt="Weather System" />
-      <h3>Weather Monitoring System</h3>
-      <p>Level: Medium </p>
-      <a href="projects/weather_monitoring.html" class="btn">View Project</a>
-    </div>
+      <div class="project-card hard">
+        <img src="images/controlcar.jpg" alt="Bluetooth Controlled Car" />
+        <h3>Bluetooth Controlled Car</h3>
+        <p>Level: Hard</p>
+        <p class="project-desc">
+          Controlled via mobile Bluetooth — combines Arduino and motor driver.
+        </p>
+        <a href="projects/bluetooth_car.html" class="btn">View Project</a>
+      </div>
 
-    <div class="project-card easy">
-      <img src="images/light.jpg" alt="Light Follower Robot">
-      <h3>Light Follower Robot</h3>
-      <p>Level: Easy</p>
-      <a href="projects/light_follower.html" class="btn">View Project</a>
-    </div>
+      <div class="project-card medium">
+        <img src="images/voice.jpg" alt="Voice Controlled Robot" />
+        <h3>Voice Controlled Robot</h3>
+        <p>Level: Medium</p>
+        <p class="project-desc">
+          Moves based on voice commands from a smartphone app.
+        </p>
+        <a href="projects/voice_control.html" class="btn">View Project</a>
+      </div>
 
-    <div class="project-card hard">
-      <img src="images/wifi_robot.jpg" alt="Wi-Fi Controlled Robot">
-      <h3>Wi-Fi Controlled Robot</h3>
-      <p>Level: Hard</p>
-      <a href="projects/wifi_robot.html" class="btn">View Project</a>
-    </div>
+      <div class="project-card easy">
+        <img src="images/smart.jpg" alt="Smart Irrigation System" />
+        <h3>Smart Irrigation System</h3>
+        <p>Level: Easy</p>
+        <p class="project-desc">
+          Automates plant watering using soil moisture sensors.
+        </p>
+        <a href="projects/smart_irrigation.html" class="btn">View Project</a>
+      </div>
+
+      <div class="project-card medium">
+        <img src="images/home.jpg" alt="IoT Home Automation" />
+        <h3>IoT Home Automation</h3>
+        <p>Level: Medium</p>
+        <p class="project-desc">
+          Control home appliances via Wi-Fi using IoT platforms.
+        </p>
+        <a href="projects/home_automation.html" class="btn">View Project</a>
+      </div>
+
+      <div class="project-card medium">
+        <img src="images/monitoring.jpg" alt="Weather Monitoring System" />
+        <h3>Weather Monitoring System</h3>
+        <p>Level: Medium</p>
+        <p class="project-desc">
+          Monitors temperature, humidity, and pressure in real-time.
+        </p>
+        <a href="projects/weather_monitoring.html" class="btn">View Project</a>
+      </div>
+
+      <div class="project-card easy">
+        <img src="images/light.jpg" alt="Light Follower Robot" />
+        <h3>Light Follower Robot</h3>
+        <p>Level: Easy</p>
+        <p class="project-desc">
+          Follows light using LDR sensors — great intro to analog sensing.
+        </p>
+        <a href="projects/light_follower.html" class="btn">View Project</a>
+      </div>
+
+      <div class="project-card hard">
+        <img src="images/wifi_robot.jpg" alt="Wi-Fi Controlled Robot" />
+        <h3>Wi-Fi Controlled Robot</h3>
+        <p>Level: Hard</p>
+        <p class="project-desc">
+          Uses ESP8266 Wi-Fi module for robot control over the internet.
+        </p>
+        <a href="projects/wifi_robot.html" class="btn">View Project</a>
+      </div>
+    </section>
   </main>
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2025 Robotics Project Gallery | Designed for Students</p>
+    <p>© 2025 Robotics Project Gallery | Designed for Students & Innovators</p>
   </footer>
 
+  <!-- FILTER SCRIPT -->
   <script>
-    // FILTER FUNCTIONALITY
-    const filterButtons = document.querySelectorAll(".filter-btn");
+    const checkboxes = document.querySelectorAll(".filter-checkbox");
     const projects = document.querySelectorAll(".project-card");
+    const clearBtn = document.getElementById("clear-filters");
 
-    filterButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        const category = button.getAttribute("data-filter");
+    function filterProjects() {
+      const activeFilters = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
 
-        filterButtons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-
-        projects.forEach(project => {
-          if (category === "all" || project.classList.contains(category)) {
-            project.style.display = "block";
-          } else {
-            project.style.display = "none";
-          }
-        });
+      projects.forEach(project => {
+        const matches =
+          activeFilters.length === 0 ||
+          activeFilters.some(f => project.classList.contains(f));
+        project.style.display = matches ? "block" : "none";
       });
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener("change", filterProjects));
+
+    clearBtn.addEventListener("click", () => {
+      checkboxes.forEach(cb => (cb.checked = false));
+      filterProjects();
     });
+
+    filterProjects(); // run once on load
   </script>
+
 </body>
 </html>

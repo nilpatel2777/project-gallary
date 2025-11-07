@@ -25,3 +25,34 @@ categoryList.addEventListener("click", e => {
 function openProject(id) {
   window.location.href = `project.html?id=${id}`;
 }
+<script>
+  const checkboxes = document.querySelectorAll(".filter-checkbox");
+  const projects = document.querySelectorAll(".project-card");
+  const clearBtn = document.getElementById("clear-filters");
+
+  function filterProjects() {
+    const activeFilters = Array.from(checkboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.value);
+
+    projects.forEach(project => {
+      const matches =
+        activeFilters.length === 0 ||
+        activeFilters.some(f => project.classList.contains(f));
+
+      // This line makes items rearrange
+      project.style.display = matches ? "block" : "none";
+    });
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener("change", filterProjects));
+
+  clearBtn.addEventListener("click", () => {
+    checkboxes.forEach(cb => (cb.checked = false));
+    filterProjects();
+  });
+
+  // Initialize at start
+  filterProjects();
+</script>
+
