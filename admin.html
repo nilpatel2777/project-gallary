@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | Robotics Gallery</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+  <!-- HEADER / CONTROL CONSOLE -->
+  <header>
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="logo-icon">⚙️</div>
+        <h1>Admin Control Panel</h1>
+        <div class="status-indicator online">
+          <span class="status-dot"></span>
+          Connected
+        </div>
+      </div>
+      <nav class="admin-nav">
+        <a href="#" class="nav-btn active" data-section="home">🏠 Home</a>
+        <a href="#" class="nav-btn" data-section="featured">⭐ Featured</a>
+        <a href="#" class="nav-btn" data-section="addRobot">➕ Add Robot</a>
+        <a href="#" class="nav-btn danger" id="clearData">🗑 Clear Data</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <!-- HOME PAGE EDIT PANEL -->
+    <section class="panel-section" id="home">
+      <div class="panel-header">
+        <h2>🏠 Homepage Control</h2>
+        <div class="panel-icon">📝</div>
+      </div>
+
+      <div class="panel-content">
+        <div class="form-group">
+          <label for="homeTitle" class="form-label">Homepage Title</label>
+          <input 
+            type="text" 
+            id="homeTitle" 
+            class="form-input" 
+            placeholder="Enter homepage title..." 
+            autofocus
+          />
+          <div class="input-hint">Update the main hero section title</div>
+        </div>
+
+        <div class="form-group">
+          <label for="homeDesc" class="form-label">Homepage Description</label>
+          <textarea 
+            id="homeDesc" 
+            class="form-input form-textarea" 
+            rows="4" 
+            placeholder="Enter homepage description..."
+          ></textarea>
+          <div class="input-hint">This text appears in the hero section below the title</div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" onclick="saveHome()">💾 Save Homepage</button>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECT EDIT PANEL -->
+    <section class="panel-section" id="featured" style="display:none;">
+      <div class="panel-header">
+        <h2>⭐ Featured Project</h2>
+        <div class="panel-icon">🎯</div>
+      </div>
+
+      <div class="panel-content">
+        <div class="form-group">
+          <label for="projTitle" class="form-label">Project Title</label>
+          <input 
+            type="text" 
+            id="projTitle" 
+            class="form-input" 
+            placeholder="Enter project title..."
+          />
+          <div class="input-hint">The headline for your featured project</div>
+        </div>
+
+        <div class="form-group">
+          <label for="projDesc" class="form-label">Project Description</label>
+          <textarea 
+            id="projDesc" 
+            class="form-input form-textarea" 
+            rows="4" 
+            placeholder="Enter project description..."
+          ></textarea>
+          <div class="input-hint">Detailed description of the featured project</div>
+        </div>
+
+        <div class="form-group">
+          <label for="projImg" class="form-label">Project Image URL</label>
+          <input 
+            type="text" 
+            id="projImg" 
+            class="form-input" 
+            placeholder="https://example.com/image.jpg"
+          />
+          <div class="input-hint">Image URL for the featured project</div>
+        </div>
+
+        <div class="image-preview" id="projPreview">
+          <img id="projImgPreview" src="images/default.jpg" alt="Project Preview" />
+        </div>
+
+        <button class="btn btn-primary btn-lg" onclick="saveFeatured()">💾 Save Project</button>
+      </div>
+    </section>
+
+    <!-- ADD ROBOT PANEL -->
+    <section class="panel-section" id="addRobot" style="display:none;">
+      <div class="panel-header">
+        <h2>➕ Add Robot to Gallery</h2>
+        <div class="panel-icon">🤖</div>
+      </div>
+
+      <div class="panel-content">
+        <div class="form-group">
+          <label for="robotTitle" class="form-label">Robot Name</label>
+          <input 
+            type="text" 
+            id="robotTitle" 
+            class="form-input" 
+            placeholder="Enter robot name"
+          />
+          <div class="input-hint">Name of your robotics project</div>
+        </div>
+
+        <div class="form-group">
+          <label for="robotDesc" class="form-label">Description</label>
+          <textarea 
+            id="robotDesc" 
+            class="form-input form-textarea" 
+            rows="3" 
+            placeholder="Enter short description"
+          ></textarea>
+          <div class="input-hint">Brief description of what this robot does</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="robotLevel" class="form-label">Difficulty Level</label>
+            <select id="robotLevel" class="form-input form-select">
+              <option value="easy">Easy (Beginner)</option>
+              <option value="medium">Medium (Intermediate)</option>
+              <option value="hard">Hard (Advanced)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="robotImg" class="form-label">Image URL</label>
+          <input 
+            type="text" 
+            id="robotImg" 
+            class="form-input" 
+            placeholder="https://example.com/robot.jpg"
+          />
+          <div class="input-hint">Upload or link to a robot image</div>
+        </div>
+         <!-- TAGS INPUT FIELD -->
+<div class="form-group">
+  <label for="robotTags" class="form-label">Tags (Comma Separated)</label>
+  <input 
+    type="text" 
+    id="robotTags" 
+    class="form-input" 
+    placeholder="e.g. Voice Recognition, AI, IoT"
+  />
+  <div class="input-hint">Add keywords like sensors, AI, voice, IoT, etc. (comma separated)</div>
+</div>
+
+
+        <button class="btn btn-primary btn-lg" onclick="addRobot()">💾 Add Robot</button>
+
+        <!-- ROBOT LIST -->
+        <div class="robot-panel">
+          <div class="panel-header">
+            <h3>🧾 Active Robots</h3>
+            <span class="robot-count" id="robotCount">0</span>
+          </div>
+          <div id="robotList" class="robot-list"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <p>© 2025 Robotics Gallery Admin</p>
+      </div>
+      <div class="footer-section">
+        <p>Dashboard v1.0 | <span id="lastUpdate">Never saved</span></p>
+      </div>
+      <div class="footer-section">
+        <p>📱 Responsive Control Panel</p>
+      </div>
+    </div>
+    <div class="footer-glow"></div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // ===== NAVIGATION (Tab Switching) =====
+    const navBtns = document.querySelectorAll("nav a[data-section]");
+    const sections = document.querySelectorAll(".panel-section");
+
+    navBtns.forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        const target = btn.getAttribute("data-section");
+        
+        sections.forEach(s => s.style.display = "none");
+        document.getElementById(target).style.display = "block";
+        
+        navBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    // ===== SAVE HOME DATA =====
+    function saveHome() {
+      const title = document.getElementById("homeTitle").value.trim();
+      const desc = document.getElementById("homeDesc").value.trim();
+
+      if (!title || !desc) {
+        alert("⚠️ Please fill all required fields.");
+        return;
+      }
+
+      localStorage.setItem("homeTitle", title);
+      localStorage.setItem("homeDesc", desc);
+      updateTimestamp();
+
+      alert("✅ Homepage updated successfully!");
+    }
+
+    // ===== SAVE FEATURED PROJECT =====
+    function saveFeatured() {
+      const title = document.getElementById("projTitle").value.trim();
+      const desc = document.getElementById("projDesc").value.trim();
+      const img = document.getElementById("projImg").value.trim();
+
+      if (!title || !desc || !img) {
+        alert("⚠️ Please fill all required fields.");
+        return;
+      }
+
+      localStorage.setItem("projTitle", title);
+      localStorage.setItem("projDesc", desc);
+      localStorage.setItem("projImg", img);
+      updateTimestamp();
+
+      alert("✅ Featured Project updated successfully!");
+    }
+
+    // ===== ADD ROBOT =====
+    function addRobot() {
+      const title = document.getElementById("robotTitle").value.trim();
+      const desc = document.getElementById("robotDesc").value.trim();
+      const level = document.getElementById("robotLevel").value;
+      const img = document.getElementById("robotImg").value.trim();
+
+      if (!title || !desc || !img) {
+        alert("⚠️ Please fill all required fields.");
+        return;
+      }
+
+      const robots = JSON.parse(localStorage.getItem("robots") || "[]");
+      const newRobot = { id: Date.now(), title, desc, level, img };
+
+      robots.push(newRobot);
+      localStorage.setItem("robots", JSON.stringify(robots));
+      updateTimestamp();
+
+      renderRobots();
+      clearRobotForm();
+
+      alert("🤖 Robot added successfully!");
+    }
+
+    // ===== CLEAR ROBOT FORM =====
+    function clearRobotForm() {
+      document.getElementById("robotTitle").value = "";
+      document.getElementById("robotDesc").value = "";
+      document.getElementById("robotImg").value = "";
+      document.getElementById("robotLevel").value = "easy";
+    }
+
+    // ===== RENDER ROBOTS LIST =====
+    function renderRobots() {
+      const container = document.getElementById("robotList");
+      const robots = JSON.parse(localStorage.getItem("robots") || "[]");
+      const countElement = document.getElementById("robotCount");
+
+      countElement.textContent = robots.length;
+
+      if (robots.length === 0) {
+        container.innerHTML = '<div class="empty-state">No robots added yet. Create one above! 🤖</div>';
+        return;
+      }
+
+      container.innerHTML = robots.map(r => `
+        <div class="robot-card">
+          <div class="robot-image">
+            <img src="${r.img}" alt="${r.title}" />
+            <div class="robot-level">${r.level.toUpperCase()}</div>
+          </div>
+          <div class="robot-info">
+            <h4>${r.title}</h4>
+            <p class="robot-desc">${r.desc}</p>
+            <div class="robot-meta">
+              <span class="meta-tag">Level: ${r.level}</span>
+            </div>
+          </div>
+          <button class="btn btn-delete" onclick="deleteRobot(${r.id})">🗑 Delete</button>
+        </div>
+      `).join("");
+    }
+
+    // ===== DELETE ROBOT =====
+    function deleteRobot(id) {
+      if (!confirm("Are you sure? This action cannot be undone.")) return;
+      
+      let robots = JSON.parse(localStorage.getItem("robots") || "[]");
+      robots = robots.filter(r => r.id !== id);
+      localStorage.setItem("robots", JSON.stringify(robots));
+      updateTimestamp();
+      
+      renderRobots();
+      alert("✅ Robot deleted successfully!");
+    }
+
+    // ===== CLEAR ALL DATA =====
+    document.getElementById("clearData").addEventListener("click", e => {
+      e.preventDefault();
+      if (confirm("⚠️ WARNING: This will delete ALL data (robots, featured, home).\n\nContinue?")) {
+        localStorage.clear();
+        location.reload();
+      }
+    });
+
+    // ===== UPDATE TIMESTAMP =====
+    function updateTimestamp() {
+      const now = new Date().toLocaleString();
+      document.getElementById("lastUpdate").textContent = now;
+      localStorage.setItem("lastUpdate", now);
+    }
+
+    // ===== LOAD DATA ON PAGE LOAD =====
+    window.addEventListener("DOMContentLoaded", () => {
+      // Load home data
+      document.getElementById("homeTitle").value = localStorage.getItem("homeTitle") || "Welcome to Robotics Gallery";
+      document.getElementById("homeDesc").value = localStorage.getItem("homeDesc") || "A collection of robotics and IoT projects.";
+
+      // Load featured project
+      document.getElementById("projTitle").value = localStorage.getItem("projTitle") || "Featured Robotics Project";
+      document.getElementById("projDesc").value = localStorage.getItem("projDesc") || "Admin can update this featured project.";
+      document.getElementById("projImg").value = localStorage.getItem("projImg") || "images/default.jpg";
+
+      // Update preview
+      document.getElementById("projImgPreview").src = localStorage.getItem("projImg") || "images/default.jpg";
+
+      // Load robots
+      renderRobots();
+
+      // Load last update timestamp
+      const lastUpdate = localStorage.getItem("lastUpdate");
+      if (lastUpdate) {
+        document.getElementById("lastUpdate").textContent = lastUpdate;
+      }
+    });
+
+    // ===== UPDATE IMAGE PREVIEW =====
+    document.getElementById("projImg").addEventListener("change", (e) => {
+      document.getElementById("projImgPreview").src = e.target.value || "images/default.jpg";
+    });
+  </script>
+
+</body>
+</html>
