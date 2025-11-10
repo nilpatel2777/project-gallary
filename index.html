@@ -4,182 +4,630 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🤖 Robotics Project Gallery</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/index.css" />
 </head>
 <body>
+  <!-- PASSWORD MODAL FOR ADMIN ACCESS -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <h2>Admin Access</h2>
+      <input 
+        type="password" 
+        id="adminPassword" 
+        placeholder="Enter admin password" 
+        autofocus
+      />
+      <p id="errorMsg" class="error"></p>
+      <div class="modal-buttons">
+        <button id="loginBtn">Login</button>
+        <button id="closeModal">Cancel</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- HEADER -->
+  <!-- HEADER / NAVIGATION -->
   <header>
-    <h1>🤖 Robotics Project Gallery</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Projects</a>
-      <a href="#">Learn</a>
-      <a href="#">Components</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="logo-icon">🤖</div>
+        <h1>Robotics Gallery</h1>
+      </div>
+      <nav class="header-nav">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#learn" class="nav-link">Learn</a>
+        <a href="#components" class="nav-link">Components</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#" id="adminLink" class="nav-link admin-link">Admin</a>
+      </nav>
+    </div>
   </header>
 
   <!-- HERO / INTRO SECTION -->
-  <section class="intro">
+  <section id="home" class="intro">
     <div class="intro-content">
-      <h2>Explore and Learn Robotics!</h2>
-      <p>
-        Welcome to the <strong>Robotics Project Gallery</strong> — a curated
-        collection of beginner to advanced robotics and IoT projects.
-        Discover how sensors, coding, and creativity combine to build
-        intelligent machines. Whether you’re a student or innovator,
-        start building your ideas today!
+      <div class="intro-badge">✨ Next Generation Robotics</div>
+      <h2 id="homeTitleDisplay">Welcome to Robotics Gallery</h2>
+      <p id="homeDescDisplay">
+        A collection of cutting-edge robotics and IoT projects designed for innovation and learning.
+        From beginner-friendly circuits to advanced autonomous systems.
       </p>
+      
+      <div class="intro-cta">
+        <button class="btn btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
+          Explore Gallery →
+        </button>
+        <button class="btn btn-secondary">
+          Learn More
+        </button>
+      </div>
+    </div>
+    <div class="intro-glow"></div>
+  </section>
+
+  <!-- FEATURED PROJECT SECTION -->
+  <section class="featured">
+    <div class="featured-image">
+      <img id="projImgDisplay" src="images/default.jpg" alt="Featured Project" />
+      <div class="featured-overlay">Featured Project</div>
+    </div>
+    <div class="featured-content">
+      <h3 id="projTitleDisplay">Featured Robotics Project</h3>
+      <p id="projDescDisplay">
+        Admin can update this featured project via the Admin Panel. 
+        This section showcases one of the most innovative robotics projects in the gallery.
+      </p>
+      <div class="featured-specs">
+        <div class="spec-item">
+          <span class="spec-icon">⚡</span>
+          <span class="spec-text">High Performance</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-icon">🔧</span>
+          <span class="spec-text">Easy to Customize</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-icon">📚</span>
+          <span class="spec-text">Well Documented</span>
+        </div>
+      </div>
+     <a id="featuredProjectLink" href="projects/featured_project.html" class="btn btn-primary">View Full Project →</a>
+
     </div>
   </section>
 
-  <!-- FILTER SIDEBAR + PROJECTS -->
-  <main>
-    <section class="filter-section">
-      <h2>Filter by Difficulty</h2>
+  <!-- MAIN CONTAINER (FILTER + GALLERY) -->
+  <main id="projects" class="main-container">
+    <!-- FILTER SIDEBAR -->
+    <aside class="filter-section">
+      <div class="filter-header">
+        <h2>Filter Projects</h2>
+        <div class="filter-icon">⚙️</div>
+      </div>
+      
       <div class="filter-options">
-        <label><input type="checkbox" value="easy" class="filter-checkbox"> Easy</label>
+        <label class="filter-label">
+          <input type="checkbox" value="easy" class="filter-checkbox"> 
+          <span class="filter-text">Easy</span>
+        </label>
         <p class="desc">Perfect for beginners — minimal coding and circuits.</p>
 
-        <label><input type="checkbox" value="medium" class="filter-checkbox"> Medium</label>
+        <label class="filter-label">
+          <input type="checkbox" value="medium" class="filter-checkbox"> 
+          <span class="filter-text">Medium</span>
+        </label>
         <p class="desc">Intermediate projects combining multiple sensors.</p>
 
-        <label><input type="checkbox" value="hard" class="filter-checkbox"> Hard</label>
+        <label class="filter-label">
+          <input type="checkbox" value="hard" class="filter-checkbox"> 
+          <span class="filter-text">Hard</span>
+        </label>
         <p class="desc">Advanced robotics with complex logic and IoT.</p>
-
-        <button id="clear-filters">Clear All</button>
       </div>
-    </section>
 
-    <!-- PROJECT GRID -->
+      <button id="clear-filters" class="btn btn-filter">Clear All Filters</button>
+    </aside>
+
+    <!-- PROJECT GALLERY GRID -->
     <section class="project-gallery">
+
       <div class="project-card easy">
-        <img src="images/line_follower.jpg" alt="Line Follower Robot" />
-        <h3>Line Follower Robot</h3>
-        <p>Level: Easy</p>
-        <p class="project-desc">
-          Follows a black line path using IR sensors and motor control. Ideal for beginners.
-        </p>
-        <a href="projects/line_follower.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/line_follower.jpg" alt="Line Follower Robot" />
+          <div class="project-level">Easy</div>
+        </div>
+        <div class="project-info">
+          <h3>Line Follower Robot</h3>
+          <p class="project-category">Beginner Project</p>
+          <p class="project-desc">
+            Follows a black line path using IR sensors and motor control. Ideal for beginners.
+          </p>
+          <div class="project-tags">
+            <span class="tag">IR Sensors</span>
+            <span class="tag">Arduino</span>
+          </div>
+          <a href="projects/line_follower.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card medium">
-        <img src="images/robot.jpg" alt="Obstacle Avoider Robot" />
-        <h3>Obstacle Avoider Robot</h3>
-        <p>Level: Medium</p>
-        <p class="project-desc">
-          Uses ultrasonic sensors to detect and avoid obstacles autonomously.
-        </p>
-        <a href="projects/obstacle_avoider.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/robot.jpg" alt="Obstacle Avoider Robot" />
+          <div class="project-level">Medium</div>
+        </div>
+        <div class="project-info">
+          <h3>Obstacle Avoider Robot</h3>
+          <p class="project-category">Intermediate Project</p>
+          <p class="project-desc">
+            Uses ultrasonic sensors to detect and avoid obstacles autonomously.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Ultrasonic</span>
+            <span class="tag">Autonomous</span>
+          </div>
+          <a href="projects/obstacle_avoider.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card hard">
-        <img src="images/controlcar.jpg" alt="Bluetooth Controlled Car" />
-        <h3>Bluetooth Controlled Car</h3>
-        <p>Level: Hard</p>
-        <p class="project-desc">
-          Controlled via mobile Bluetooth — combines Arduino and motor driver.
-        </p>
-        <a href="projects/bluetooth_car.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/controlcar.jpg" alt="Bluetooth Controlled Car" />
+          <div class="project-level">Hard</div>
+        </div>
+        <div class="project-info">
+          <h3>Bluetooth Controlled Car</h3>
+          <p class="project-category">Advanced Project</p>
+          <p class="project-desc">
+            Controlled via mobile Bluetooth — combines Arduino and motor driver with app integration.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Bluetooth</span>
+            <span class="tag">IoT</span>
+          </div>
+          <a href="projects/bluetooth_car.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card medium">
-        <img src="images/voice.jpg" alt="Voice Controlled Robot" />
-        <h3>Voice Controlled Robot</h3>
-        <p>Level: Medium</p>
-        <p class="project-desc">
-          Moves based on voice commands from a smartphone app.
-        </p>
-        <a href="projects/voice_control.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/voice.jpg" alt="Voice Controlled Robot" />
+          <div class="project-level">Medium</div>
+        </div>
+        <div class="project-info">
+          <h3>Voice Controlled Robot</h3>
+          <p class="project-category">Intermediate Project</p>
+          <p class="project-desc">
+            Moves based on voice commands from a smartphone app. Advanced audio processing.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Voice Recognition</span>
+            <span class="tag">AI</span>
+          </div>
+          <a href="projects/voice_control.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card easy">
-        <img src="images/smart.jpg" alt="Smart Irrigation System" />
-        <h3>Smart Irrigation System</h3>
-        <p>Level: Easy</p>
-        <p class="project-desc">
-          Automates plant watering using soil moisture sensors.
-        </p>
-        <a href="projects/smart_irrigation.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/smart.jpg" alt="Smart Irrigation System" />
+          <div class="project-level">Easy</div>
+        </div>
+        <div class="project-info">
+          <h3>Smart Irrigation System</h3>
+          <p class="project-category">Beginner Project</p>
+          <p class="project-desc">
+            Automates plant watering using soil moisture sensors and relay control.
+          </p>
+          <div class="project-tags">
+            <span class="tag">IoT</span>
+            <span class="tag">Sensors</span>
+          </div>
+          <a href="projects/smart_irrigation.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card medium">
-        <img src="images/home.jpg" alt="IoT Home Automation" />
-        <h3>IoT Home Automation</h3>
-        <p>Level: Medium</p>
-        <p class="project-desc">
-          Control home appliances via Wi-Fi using IoT platforms.
-        </p>
-        <a href="projects/home_automation.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/home.jpg" alt="IoT Home Automation" />
+          <div class="project-level">Medium</div>
+        </div>
+        <div class="project-info">
+          <h3>IoT Home Automation</h3>
+          <p class="project-category">Intermediate Project</p>
+          <p class="project-desc">
+            Control home appliances via Wi-Fi using IoT platforms and cloud integration.
+          </p>
+          <div class="project-tags">
+            <span class="tag">WiFi</span>
+            <span class="tag">Cloud</span>
+          </div>
+          <a href="projects/home_automation.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card medium">
-        <img src="images/monitoring.jpg" alt="Weather Monitoring System" />
-        <h3>Weather Monitoring System</h3>
-        <p>Level: Medium</p>
-        <p class="project-desc">
-          Monitors temperature, humidity, and pressure in real-time.
-        </p>
-        <a href="projects/weather_monitoring.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/monitoring.jpg" alt="Weather Monitoring System" />
+          <div class="project-level">Medium</div>
+        </div>
+        <div class="project-info">
+          <h3>Weather Monitoring System</h3>
+          <p class="project-category">Intermediate Project</p>
+          <p class="project-desc">
+            Monitors temperature, humidity, and pressure in real-time with data logging.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Sensors</span>
+            <span class="tag">Data Logging</span>
+          </div>
+          <a href="projects/weather_monitoring.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card easy">
-        <img src="images/light.jpg" alt="Light Follower Robot" />
-        <h3>Light Follower Robot</h3>
-        <p>Level: Easy</p>
-        <p class="project-desc">
-          Follows light using LDR sensors — great intro to analog sensing.
-        </p>
-        <a href="projects/light_follower.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/light.jpg" alt="Light Follower Robot" />
+          <div class="project-level">Easy</div>
+        </div>
+        <div class="project-info">
+          <h3>Light Follower Robot</h3>
+          <p class="project-category">Beginner Project</p>
+          <p class="project-desc">
+            Follows light using LDR sensors — great introduction to analog sensing.
+          </p>
+          <div class="project-tags">
+            <span class="tag">LDR</span>
+            <span class="tag">Analog</span>
+          </div>
+          <a href="projects/light_follower.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
 
       <div class="project-card hard">
-        <img src="images/wifi_robot.jpg" alt="Wi-Fi Controlled Robot" />
-        <h3>Wi-Fi Controlled Robot</h3>
-        <p>Level: Hard</p>
-        <p class="project-desc">
-          Uses ESP8266 Wi-Fi module for robot control over the internet.
-        </p>
-        <a href="projects/wifi_robot.html" class="btn">View Project</a>
+        <div class="project-image-wrapper">
+          <img src="images/wifi_robot.jpg" alt="Wi-Fi Controlled Robot" />
+          <div class="project-level">Hard</div>
+        </div>
+        <div class="project-info">
+          <h3>Wi-Fi Controlled Robot</h3>
+          <p class="project-category">Advanced Project</p>
+          <p class="project-desc">
+            Uses ESP8266 Wi-Fi module for robot control over the internet with real-time video feed.
+          </p>
+          <div class="project-tags">
+            <span class="tag">ESP8266</span>
+            <span class="tag">WiFi</span>
+          </div>
+          <a href="projects/wifi_robot.html" class="btn btn-card">View Project</a>
+        </div>
       </div>
+
     </section>
   </main>
 
+  <!-- CALL-TO-ACTION SECTION -->
+  <section id="contact" class="cta-section">
+    <div class="cta-content">
+      <h2>Start Your Robotics Journey Today</h2>
+      <p>Choose from our collection of beginner-friendly to advanced robotics projects and begin building amazing things.</p>
+      <button class="btn btn-primary">Get Started Now →</button>
+    </div>
+    <div class="cta-glow"></div>
+  </section>
+  <!-- LEARN SECTION -->
+  <section id="learn" class="learn-section">
+    <div class="learn-container">
+      <h2>Learn Robotics Fundamentals</h2>
+      <p class="learn-desc">
+        Master the basics of robotics, electronics, and programming. 
+        Explore curated tutorials and learning paths designed for all levels — from beginner to advanced.
+      </p>
+
+      <div class="learn-cards">
+        <div class="learn-card">
+          <div class="learn-icon">⚙️</div>
+          <h3>Basic Circuits</h3>
+          <p>Understand resistors, sensors, and breadboard connections to bring your first robot to life.</p>
+          <a href="#" class="btn btn-card">Start Learning →</a>
+        </div>
+
+        <div class="learn-card">
+          <div class="learn-icon">💡</div>
+          <h3>Arduino Programming</h3>
+          <p>Write simple yet powerful code to control motors, lights, and sensors using Arduino IDE.</p>
+          <a href="#" class="btn btn-card">View Tutorials →</a>
+        </div>
+
+        <div class="learn-card">
+          <div class="learn-icon">🤖</div>
+          <h3>Autonomous Systems</h3>
+          <p>Learn how to build robots that make decisions using AI, sensors, and real-time data.</p>
+          <a href="#" class="btn btn-card">Explore Topics →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS SECTION -->
+  <section id="components" class="components-section">
+    <div class="components-container">
+      <h2>Robotics Components</h2>
+      <p class="components-desc">
+        Discover essential hardware components that power your robotics projects. 
+        Each part plays a key role in movement, sensing, and control.
+      </p>
+
+      <div class="component-grid">
+        <div class="component-item">
+          <img src="images/motor.jpg" alt="DC Motor" />
+          <h3>Motors</h3>
+          <p>Convert electrical energy into motion — perfect for wheels and arms.</p>
+        </div>
+        <div class="component-item">
+          <img src="images/sensor.jpg" alt="Sensor" />
+          <h3>Sensors</h3>
+          <p>Detect light, distance, and sound to help robots perceive their surroundings.</p>
+        </div>
+        <div class="component-item">
+          <img src="images/microcontroller.jpg" alt="Microcontroller" />
+          <h3>Microcontrollers</h3>
+          <p>The robot’s brain — processes inputs and controls outputs for smart automation.</p>
+        </div>
+        <div class="component-item">
+          <img src="images/bettry.jpg" alt="Battery" />
+          <h3>Power Supply</h3>
+          <p>Provides stable voltage and current to keep your robots running smoothly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <h2>About Robotics Gallery</h2>
+      <p class="about-desc">
+        Robotics Gallery was created to inspire makers, students, and innovators. 
+        Our mission is to make robotics accessible to everyone by providing free educational content, 
+        high-quality tutorials, and an open platform for sharing projects.
+      </p>
+      <div class="about-values">
+        <div class="value-item">
+          <span class="value-icon">🚀</span>
+          <h3>Innovation</h3>
+          <p>Encouraging creativity and experimentation through project-based learning.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-icon">🎓</span>
+          <h3>Education</h3>
+          <p>Empowering learners with practical knowledge and easy-to-follow tutorials.</p>
+        </div>
+        <div class="value-item">
+          <span class="value-icon">🤝</span>
+          <h3>Community</h3>
+          <p>Building a global network of robotics enthusiasts and professionals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
-    <p>© 2025 Robotics Project Gallery | Designed for Students & Innovators</p>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Robotics Gallery</h4>
+        <p>Professional robotics and IoT project collection for students and innovators.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#learn">Learn</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Tutorials</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">License</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Robotics Project Gallery | Designed for Students &amp; Innovators</p>
+      <p>Built with passion for robotics and automation</p>
+    </div>
+    <!-- CONTACT SECTION -->
+<section id="contact" class="cta-section">
+  <div class="cta-content">
+    <h2>Contact Us</h2>
+    <p>We’d love to connect with you! Reach out for any collaboration, learning support, or project inquiries.</p>
+
+    <div class="contact-grid">
+      <!-- LEFT: Address and Info -->
+      <div class="contact-info">
+        <h3>📍 Address</h3>
+        <p>Robotics Gallery HQ<br>
+        101, Nirav Square, Nr Ashapuri Mandir, Vijalpore Road, Navsari-396 445, Navsari, Gujarat 396445</p>
+
+        <h3>📞 Contact</h3>
+        <p><strong>Phone:</strong> +91 93130 57803<br>
+        <strong>Email:</strong> <a href="mailto:info@roboticsgallery.com">info@roboticsgallery.com</a></p>
+
+        <h3>🕒 Working Hours</h3>
+        <p>Mon - Sat: 9:00 AM – 6:00 PM<br>Sunday: Closed</p>
+      </div>
+
+      <!-- RIGHT: Contact Form -->
+      <div class="contact-form">
+        <h3>Send Us a Message</h3>
+        <form id="contactForm">
+          <input type="text" id="name" placeholder="Your Name" required />
+          <input type="email" id="email" placeholder="Your Email" required />
+          <textarea id="message" placeholder="Your Message" required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-glow"></div>
+</section>
+
   </footer>
 
-  <!-- FILTER SCRIPT -->
+  <!-- SCRIPTS -->
+  <script src="index.js"></script>
   <script>
+    // ========== FILTER SYSTEM ==========
     const checkboxes = document.querySelectorAll(".filter-checkbox");
     const projects = document.querySelectorAll(".project-card");
     const clearBtn = document.getElementById("clear-filters");
 
     function filterProjects() {
-      const activeFilters = Array.from(checkboxes)
-        .filter(cb => cb.checked)
-        .map(cb => cb.value);
-
-      projects.forEach(project => {
-        const matches =
-          activeFilters.length === 0 ||
-          activeFilters.some(f => project.classList.contains(f));
-        project.style.display = matches ? "block" : "none";
+      const active = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+      projects.forEach(p => {
+        const match = active.length === 0 || active.some(f => p.classList.contains(f));
+        p.style.display = match ? "block" : "none";
+        if (match) {
+          p.style.animation = 'fadeIn 0.5s ease-out';
+        }
       });
     }
 
     checkboxes.forEach(cb => cb.addEventListener("change", filterProjects));
-
     clearBtn.addEventListener("click", () => {
-      checkboxes.forEach(cb => (cb.checked = false));
+      checkboxes.forEach(cb => cb.checked = false);
       filterProjects();
     });
+    filterProjects();
 
-    filterProjects(); // run once on load
+    // ========== LOAD ADMIN PANEL DATA ==========
+    document.getElementById("homeTitleDisplay").innerText =
+      localStorage.getItem("homeTitle") || "Welcome to Robotics Gallery";
+    document.getElementById("homeDescDisplay").innerText =
+      localStorage.getItem("homeDesc") ||
+      "A collection of cutting-edge robotics and IoT projects designed for innovation and learning. From beginner-friendly circuits to advanced autonomous systems.";
+    document.getElementById("projTitleDisplay").innerText =
+      localStorage.getItem("projTitle") || "Featured Robotics Project";
+    document.getElementById("projDescDisplay").innerText =
+      localStorage.getItem("projDesc") ||
+      "Admin can update this featured project via the Admin Panel. This section showcases one of the most innovative robotics projects in the gallery.";
+    document.getElementById("projImgDisplay").src =
+      localStorage.getItem("projImg") || "images/default.jpg";
+
+    // Load robots added by admin
+    const gallery = document.querySelector(".project-gallery");
+    const addedRobots = JSON.parse(localStorage.getItem("robots") || "[]");
+
+    addedRobots.forEach((robot) => {
+      const div = document.createElement("div");
+      div.className = `project-card ${robot.level}`;
+      div.innerHTML = `
+        <div class="project-image-wrapper">
+          <img src="${robot.img}" alt="${robot.title}">
+          <div class="project-level">${robot.level.charAt(0).toUpperCase() + robot.level.slice(1)}</div>
+        </div>
+        <div class="project-info">
+          <h3>${robot.title}</h3>
+          <p class="project-category">Custom Project</p>
+          <p class="project-desc">${robot.desc}</p>
+          <a href="#" class="btn btn-card">View Project</a>
+        </div>
+      `;
+      gallery.appendChild(div);
+    });
+
+    // ========== ADMIN MODAL ==========
+    const adminLink = document.querySelector('a[href="#"]#adminLink');
+    const modal = document.getElementById("adminModal");
+    const closeModal = document.getElementById("closeModal");
+    const loginBtn = document.getElementById("loginBtn");
+    const passwordInput = document.getElementById("adminPassword");
+    const errorMsg = document.getElementById("errorMsg");
+
+    if (adminLink) {
+      adminLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        modal.style.display = "flex";
+        errorMsg.textContent = "";
+        passwordInput.value = "";
+        passwordInput.focus();
+      });
+    }
+
+    if (closeModal) {
+      closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+    }
+
+    if (loginBtn) {
+      loginBtn.addEventListener("click", () => {
+        const password = passwordInput.value.trim();
+        if (password === "robotadmin") {
+          modal.style.display = "none";
+          window.location.href = "admin.html";
+        } else {
+          errorMsg.textContent = "❌ Incorrect password!";
+        }
+      });
+    }
+
+    if (passwordInput) {
+      passwordInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") loginBtn.click();
+      });
+    }
+
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+    
   </script>
+  <script>
+  // Wait until everything on the page is loaded
+  window.addEventListener('load', () => {
+    // Find the Contact link in your navbar
+    const contactLink = document.querySelector('a.nav-link[href="#contact"]');
+
+    // If found, attach the click event
+    if (contactLink) {
+      contactLink.addEventListener('click', (event) => {
+        event.preventDefault(); // stop default jump behavior
+        
+        // Smoothly scroll to very bottom of the page
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
+      });
+    } else {
+      console.warn("⚠️ Contact link not found in navbar.");
+    }
+  });
+</script>
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  alert("✅ Message sent successfully! We'll get back to you soon.");
+  this.reset();
+});
+</script>
 
 </body>
 </html>
