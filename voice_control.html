@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Line Follower Robot</title>
+  <title>Voice Controlled Robot</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,7 @@
     }
 
     header {
-      background: linear-gradient(90deg, #00b4d8, #0077b6);
+      background: linear-gradient(90deg, #00b894, #0984e3);
       padding: 20px;
       font-size: 22px;
       font-weight: 600;
@@ -49,8 +49,11 @@
     }
 
     h2 {
-      color: #22c55e;
+      color: #facc15;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     ul {
@@ -58,7 +61,7 @@
     }
 
     .project-image {
-      width: 60%;
+      width: 80%;
       display: block;
       margin: 20px auto;
       border-radius: 10px;
@@ -110,96 +113,97 @@
   </style>
 </head>
 <body>
-  <header>🟡 Line Follower Robot</header>
+  <header>🎙️ Voice Controlled Robot</header>
 
   <div class="container">
     <!-- Left Side -->
     <div class="left-panel">
       <h2>📘 Description</h2>
       <p>
-        The Line Follower Robot follows a black or white line on the floor using IR sensors.
-        The sensors detect the difference in reflectivity between the line and the surface.
-        Based on this detection, the robot automatically adjusts its path to stay on track.
+        The Voice Controlled Robot operates based on commands received through a smartphone’s voice recognition app. 
+        It uses Bluetooth communication to receive commands like <b>Forward, Backward, Left, Right, and Stop</b>. 
+        The Arduino UNO processes these signals and drives the motors through the L293D motor driver.
       </p>
 
       <h2>🔧 Components</h2>
       <ul>
         <li>Arduino UNO</li>
-        <li>IR Sensor Module (2 or 3)</li>
-        <li>L293D Motor Driver Module</li>
+        <li>HC-05 Bluetooth Module</li>
+        <li>L293D Motor Driver IC</li>
         <li>DC Motors (2)</li>
         <li>Robot Chassis</li>
+        <li>Smartphone (Voice Command App)</li>
         <li>Battery Pack</li>
-        <li>Connecting Wires</li>
+        <li>Jumper Wires</li>
       </ul>
 
-      <img src="https://i1.wp.com/www.puntoflotante.net/LINE-FOLLOWER-ROBOT-PROTOBOARD5.jpg?strip=all" alt="Line Follower Robot" class="project-image">
+      <img src="https://www.investinproject.com/wp-content/uploads/2021/01/voice.jpg" alt="Voice Controlled Robot" class="project-image">
     </div>
 
     <!-- Right Side -->
     <div class="right-panel">
       <h2>💻 Code</h2>
       <pre id="code">
-#define leftSensor 2
-#define rightSensor 3
-#define leftMotor1 4
-#define leftMotor2 5
-#define rightMotor1 6
-#define rightMotor2 7
+char data = 0;
+int motor1Pin1 = 2;
+int motor1Pin2 = 3;
+int motor2Pin1 = 4;
+int motor2Pin2 = 5;
 
 void setup() {
-  pinMode(leftSensor, INPUT);
-  pinMode(rightSensor, INPUT);
-  pinMode(leftMotor1, OUTPUT);
-  pinMode(leftMotor2, OUTPUT);
-  pinMode(rightMotor1, OUTPUT);
-  pinMode(rightMotor2, OUTPUT);
+  Serial.begin(9600);
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
 }
 
 void loop() {
-  int left = digitalRead(leftSensor);
-  int right = digitalRead(rightSensor);
-
-  if (left == LOW && right == LOW) {
-    forward();
-  }
-  else if (left == HIGH && right == LOW) {
-    leftTurn();
-  }
-  else if (left == LOW && right == HIGH) {
-    rightTurn();
-  }
-  else {
-    stopRobot();
+  if (Serial.available() > 0) {
+    data = Serial.read();
+    Serial.println(data);
+    
+    if (data == 'F') { forward(); }
+    else if (data == 'B') { backward(); }
+    else if (data == 'L') { left(); }
+    else if (data == 'R') { right(); }
+    else if (data == 'S') { stopRobot(); }
   }
 }
 
 void forward() {
-  digitalWrite(leftMotor1, HIGH);
-  digitalWrite(leftMotor2, LOW);
-  digitalWrite(rightMotor1, HIGH);
-  digitalWrite(rightMotor2, LOW);
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor2Pin2, LOW);
 }
 
-void leftTurn() {
-  digitalWrite(leftMotor1, LOW);
-  digitalWrite(leftMotor2, HIGH);
-  digitalWrite(rightMotor1, HIGH);
-  digitalWrite(rightMotor2, LOW);
+void backward() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
 }
 
-void rightTurn() {
-  digitalWrite(leftMotor1, HIGH);
-  digitalWrite(leftMotor2, LOW);
-  digitalWrite(rightMotor1, LOW);
-  digitalWrite(rightMotor2, HIGH);
+void left() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor2Pin2, LOW);
+}
+
+void right() {
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
 }
 
 void stopRobot() {
-  digitalWrite(leftMotor1, LOW);
-  digitalWrite(leftMotor2, LOW);
-  digitalWrite(rightMotor1, LOW);
-  digitalWrite(rightMotor2, LOW);
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, LOW);
 }
       </pre>
     </div>
@@ -212,7 +216,7 @@ void stopRobot() {
     <button class="back" onclick="goBack()">⬅️ Back</button>
   </div>
 
-  <footer>© 2025 Project Gallery | Line Follower Robot</footer>
+  <footer>© 2025 Project Gallery | Voice Controlled Robot</footer>
 
   <script>
     function copyCode() {
@@ -226,7 +230,7 @@ void stopRobot() {
       const blob = new Blob([code], { type: "text/plain" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "line_follower_robot.ino";
+      link.download = "voice_controlled_robot.ino";
       link.click();
     }
 

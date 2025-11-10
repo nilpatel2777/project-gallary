@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Monitoring System</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #0d1117;
+    color: #e6edf3;
+  }
+
+  header {
+    background: linear-gradient(90deg, #00b894, #0984e3);
+    color: white;
+    text-align: center;
+    padding: 18px;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .left {
+    background: #161b22;
+    padding: 25px;
+    border-radius: 10px;
+  }
+
+  .left h2 {
+    color: #00d4ff;
+    margin-top: 0;
+  }
+
+  .left img {
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 2px solid #00b894;
+  }
+
+  .right {
+    background: #161b22;
+    padding: 25px;
+    border-radius: 10px;
+  }
+
+  pre {
+    background-color: #000;
+    color: #00ff99;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: "Courier New";
+    font-size: 15px;
+    height: 400px;
+  }
+
+  .btn-group {
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 0 10px;
+    transition: 0.3s;
+  }
+
+  .btn-copy { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
+  .btn-download { background: linear-gradient(90deg, #007bff, #00d4ff); }
+  .btn-edit { background: linear-gradient(90deg, #4CAF50, #00FF99); }
+  .btn-back { background: linear-gradient(90deg, #ff4d4d, #ff9900); }
+
+  footer {
+    background: #161b22;
+    color: #58a6ff;
+    text-align: center;
+    padding: 15px;
+  }
+</style>
+</head>
+<body>
+
+<header>🌦️ Weather Monitoring System</header>
+
+<div class="main">
+  <!-- LEFT SIDE -->
+  <div class="left">
+    <h2>📘 Description</h2>
+    <p>
+      The Weather Monitoring System uses DHT11 and BMP180 sensors to measure temperature, humidity, and pressure. 
+      It displays readings on an LCD and sends them to an IoT dashboard like ThingSpeak for real-time analysis.
+    </p>
+
+    <h2>🔧 Components</h2>
+    <ul>
+      <li>Arduino UNO</li>
+      <li>DHT11 Sensor</li>
+      <li>BMP180 Sensor</li>
+      <li>LCD 16x2 Display</li>
+      <li>Jumper Wires</li>
+      <li>Breadboard & Power Supply</li>
+    </ul>
+
+    <img src="https://www.slideteam.net/media/catalog/product/cache/1280x720/k/e/key_features_of_smart_weather_monitoring_system_iot_thermostats_to_control_hvac_system_iot_ss_slide01.jpg" alt="Weather Monitoring System">
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right">
+    <h2>💻 Code</h2>
+    <pre id="codeBox">
+#include <DHT.h>
+#include <Wire.h>
+#include <Adafruit_BMP085.h>
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+Adafruit_BMP085 bmp;
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+  bmp.begin();
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+  float pressure = bmp.readPressure() / 100.0;
+
+  Serial.print("Temperature: "); Serial.println(temp);
+  Serial.print("Humidity: "); Serial.println(hum);
+  Serial.print("Pressure: "); Serial.println(pressure);
+  delay(2000);
+}
+    </pre>
+  </div>
+</div>
+
+<!-- BUTTONS -->
+<div class="btn-group">
+  <button class="btn btn-copy" onclick="copyCode()">📋 Copy</button>
+  <button class="btn btn-download" onclick="downloadCode()">⬇ Download</button>
+  <button class="btn btn-edit" onclick="toggleEdit()">✏ Edit</button>
+  <button class="btn btn-back" onclick="goBack()">⬅ Back</button>
+</div>
+
+<footer>© 2025 Project Gallery | Weather Monitoring System</footer>
+
+<script>
+const box = document.getElementById('codeBox');
+
+function copyCode() {
+  navigator.clipboard.writeText(box.innerText);
+  alert('✅ Code copied to clipboard!');
+}
+
+function downloadCode() {
+  const blob = new Blob([box.innerText], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'weather_monitoring_system.ino';
+  a.click();
+}
+
+function toggleEdit() {
+  box.contentEditable = box.contentEditable === 'true' ? 'false' : 'true';
+  alert(box.contentEditable === 'true' ? '📝 Edit mode ON' : '💾 Edit mode OFF');
+}
+
+function goBack() {
+  window.location.href = '../index.html';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wi-Fi Controlled Robot</title>
+ <style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #0d1117;
+    color: #e6edf3;
+  }
+
+  header {
+    background: linear-gradient(90deg, #00b894, #0984e3);
+    color: white;
+    text-align: center;
+    padding: 18px;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .left {
+    background: #161b22;
+    padding: 25px;
+    border-radius: 10px;
+  }
+
+  .left h2 {
+    color: #00d4ff;
+    margin-top: 0;
+  }
+
+  .left img {
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 2px solid #00b894;
+  }
+
+  .right {
+    background: #161b22;
+    padding: 25px;
+    border-radius: 10px;
+  }
+
+  pre {
+    background-color: #000;
+    color: #00ff99;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: "Courier New";
+    font-size: 15px;
+    height: 400px;
+  }
+
+  .btn-group {
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 0 10px;
+    transition: 0.3s;
+  }
+
+  .btn-copy { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
+  .btn-download { background: linear-gradient(90deg, #007bff, #00d4ff); }
+  .btn-edit { background: linear-gradient(90deg, #4CAF50, #00FF99); }
+  .btn-back { background: linear-gradient(90deg, #ff4d4d, #ff9900); }
+
+  footer {
+    background: #161b22;
+    color: #58a6ff;
+    text-align: center;
+    padding: 15px;
+  }
+</style>
+</head>
+<body>
+  <header>📡 Wi-Fi Controlled Robot</header>
+
+  <div class="main">
+    <!-- Left Side -->
+    <div class="left">
+      <h2>📘 Description</h2>
+      <p>
+        The Wi-Fi Controlled Robot is an IoT-based project that allows users to control a robot remotely using a smartphone or computer over Wi-Fi.
+        The NodeMCU (ESP8266) module acts as the main controller and sets up a web server to receive commands for forward, backward, left, right, and stop actions.
+      </p>
+
+      <h2>🔧 Components</h2>
+      <ul>
+        <li>NodeMCU (ESP8266)</li>
+        <li>L293D Motor Driver</li>
+        <li>2 DC Motors</li>
+        <li>Robot Chassis</li>
+        <li>Battery Pack</li>
+        <li>Jumper Wires</li>
+      </ul>
+      <div class="project-image">
+      <img src="https://how2electronics.com/wp-content/uploads/2021/07/WiFi-Controlled-Robot-1000x562.jpg" alt="Wi-Fi Controlled Robot" class="project-image">
+    </div>
+    </div>
+    <!-- Right Side -->
+    <div class="right">
+      <h2>💻 Code</h2>
+      <pre id="codebox">
+#include &lt;ESP8266WiFi.h&gt;
+
+const char* ssid = "YOUR_WIFI_SSID";
+const char* password = "YOUR_WIFI_PASSWORD";
+
+WiFiServer server(80);
+
+int LM1 = D1;
+int LM2 = D2;
+int RM1 = D3;
+int RM2 = D4;
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to WiFi...");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Connected!");
+  Serial.println(WiFi.localIP());
+  server.begin();
+
+  pinMode(LM1, OUTPUT);
+  pinMode(LM2, OUTPUT);
+  pinMode(RM1, OUTPUT);
+  pinMode(RM2, OUTPUT);
+}
+
+void loop() {
+  WiFiClient client = server.available();
+  if (!client) return;
+
+  String request = client.readStringUntil('\r');
+  client.flush();
+
+  if (request.indexOf("/F") != -1) forward();
+  else if (request.indexOf("/B") != -1) backward();
+  else if (request.indexOf("/L") != -1) left();
+  else if (request.indexOf("/R") != -1) right();
+  else if (request.indexOf("/S") != -1) stop();
+
+  client.println("HTTP/1.1 200 OK");
+  client.println("Content-Type: text/html");
+  client.println();
+  client.println("&lt;center&gt;&lt;h1&gt;Wi-Fi Controlled Robot&lt;/h1&gt;");
+  client.println("&lt;a href='/F'&gt;Forward&lt;/a&gt;&lt;br&gt;");
+  client.println("&lt;a href='/B'&gt;Backward&lt;/a&gt;&lt;br&gt;");
+  client.println("&lt;a href='/L'&gt;Left&lt;/a&gt; &lt;a href='/R'&gt;Right&lt;/a&gt;&lt;br&gt;");
+  client.println("&lt;a href='/S'&gt;Stop&lt;/a&gt;&lt;/center&gt;");
+}
+
+void forward() {
+  digitalWrite(LM1, HIGH);
+  digitalWrite(LM2, LOW);
+  digitalWrite(RM1, HIGH);
+  digitalWrite(RM2, LOW);
+}
+
+void backward() {
+  digitalWrite(LM1, LOW);
+  digitalWrite(LM2, HIGH);
+  digitalWrite(RM1, LOW);
+  digitalWrite(RM2, HIGH);
+}
+
+void left() {
+  digitalWrite(LM1, LOW);
+  digitalWrite(LM2, HIGH);
+  digitalWrite(RM1, HIGH);
+  digitalWrite(RM2, LOW);
+}
+
+void right() {
+  digitalWrite(LM1, HIGH);
+  digitalWrite(LM2, LOW);
+  digitalWrite(RM1, LOW);
+  digitalWrite(RM2, HIGH);
+}
+
+void stop() {
+  digitalWrite(LM1, LOW);
+  digitalWrite(LM2, LOW);
+  digitalWrite(RM1, LOW);
+  digitalWrite(RM2, LOW);
+}
+      </pre>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-copy" onclick="copyCode()">📋 Copy</button>
+    <button class="btn btn-download" onclick="downloadCode()">⬇️ Download</button>
+    <button class="btn btn-edit" onclick="editCode()">✏️ Edit</button>
+    <button class="btn btn-back" onclick="goBack()">⬅️ Back</button>
+  </div>
+
+  <footer>© 2025 Project Gallery | Wi-Fi Controlled Robot</footer>
+
+  <script>
+const box = document.getElementById('codeBox');
+
+    function copyCode() {
+      const code = document.getElementById("codeBox").innerText;
+      navigator.clipboard.writeText(code);
+      alert("✅ Code copied to clipboard!");
+    }
+
+    function downloadCode() {
+      const code = document.getElementById("code").innerText;
+      const blob = new Blob([code], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "wifi_controlled_robot.ino";
+      link.click();
+    }
+
+    function editCode() {
+      const codeBlock = document.getElementById("code");
+      const newCode = prompt("Edit your code below:", codeBlock.innerText);
+      if (newCode !== null) codeBlock.innerText = newCode;
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>

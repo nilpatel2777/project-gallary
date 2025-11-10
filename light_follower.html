@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Line Follower Robot</title>
+  <title>Light Follower Robot</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +13,7 @@
     }
 
     header {
-      background: linear-gradient(90deg, #00b4d8, #0077b6);
+      background: linear-gradient(90deg, #14b8a6, #0ea5e9);
       padding: 20px;
       font-size: 22px;
       font-weight: 600;
@@ -49,7 +49,7 @@
     }
 
     h2 {
-      color: #22c55e;
+      color: #facc15;
       margin-bottom: 10px;
     }
 
@@ -58,7 +58,7 @@
     }
 
     .project-image {
-      width: 60%;
+      width: 70%;
       display: block;
       margin: 20px auto;
       border-radius: 10px;
@@ -110,42 +110,42 @@
   </style>
 </head>
 <body>
-  <header>🟡 Line Follower Robot</header>
+  <header>💡 Light Follower Robot</header>
 
   <div class="container">
-    <!-- Left Side -->
+    <!-- Left Panel -->
     <div class="left-panel">
       <h2>📘 Description</h2>
       <p>
-        The Line Follower Robot follows a black or white line on the floor using IR sensors.
-        The sensors detect the difference in reflectivity between the line and the surface.
-        Based on this detection, the robot automatically adjusts its path to stay on track.
+        The Light Follower Robot is designed to follow a light source automatically.
+        It uses Light Dependent Resistors (LDRs) to sense the intensity of light and move towards it.
+        This project demonstrates the basic concept of sensor-based automation and robotics.
       </p>
 
       <h2>🔧 Components</h2>
       <ul>
         <li>Arduino UNO</li>
-        <li>IR Sensor Module (2 or 3)</li>
+        <li>2 LDR Sensors</li>
+        <li>2 DC Motors</li>
         <li>L293D Motor Driver Module</li>
-        <li>DC Motors (2)</li>
         <li>Robot Chassis</li>
         <li>Battery Pack</li>
         <li>Connecting Wires</li>
       </ul>
 
-      <img src="https://i1.wp.com/www.puntoflotante.net/LINE-FOLLOWER-ROBOT-PROTOBOARD5.jpg?strip=all" alt="Line Follower Robot" class="project-image">
+      <img src="https://content.instructables.com/FQG/PFV7/KNUBP1EQ/FQGPFV7KNUBP1EQ.png?auto=webp&fit=bounds&frame=1&height=1024&width=1024auto=webp&frame=1&height=300" alt="Light Follower Robot" class="project-image">
     </div>
 
-    <!-- Right Side -->
+    <!-- Right Panel -->
     <div class="right-panel">
       <h2>💻 Code</h2>
       <pre id="code">
-#define leftSensor 2
-#define rightSensor 3
-#define leftMotor1 4
-#define leftMotor2 5
-#define rightMotor1 6
-#define rightMotor2 7
+int leftSensor = A0;
+int rightSensor = A1;
+int leftMotor1 = 2;
+int leftMotor2 = 3;
+int rightMotor1 = 4;
+int rightMotor2 = 5;
 
 void setup() {
   pinMode(leftSensor, INPUT);
@@ -157,20 +157,15 @@ void setup() {
 }
 
 void loop() {
-  int left = digitalRead(leftSensor);
-  int right = digitalRead(rightSensor);
+  int leftValue = analogRead(leftSensor);
+  int rightValue = analogRead(rightSensor);
 
-  if (left == LOW && right == LOW) {
+  if (leftValue > rightValue + 50) {
+    turnLeft();
+  } else if (rightValue > leftValue + 50) {
+    turnRight();
+  } else {
     forward();
-  }
-  else if (left == HIGH && right == LOW) {
-    leftTurn();
-  }
-  else if (left == LOW && right == HIGH) {
-    rightTurn();
-  }
-  else {
-    stopRobot();
   }
 }
 
@@ -181,25 +176,18 @@ void forward() {
   digitalWrite(rightMotor2, LOW);
 }
 
-void leftTurn() {
+void turnLeft() {
   digitalWrite(leftMotor1, LOW);
   digitalWrite(leftMotor2, HIGH);
   digitalWrite(rightMotor1, HIGH);
   digitalWrite(rightMotor2, LOW);
 }
 
-void rightTurn() {
+void turnRight() {
   digitalWrite(leftMotor1, HIGH);
   digitalWrite(leftMotor2, LOW);
   digitalWrite(rightMotor1, LOW);
   digitalWrite(rightMotor2, HIGH);
-}
-
-void stopRobot() {
-  digitalWrite(leftMotor1, LOW);
-  digitalWrite(leftMotor2, LOW);
-  digitalWrite(rightMotor1, LOW);
-  digitalWrite(rightMotor2, LOW);
 }
       </pre>
     </div>
@@ -212,7 +200,7 @@ void stopRobot() {
     <button class="back" onclick="goBack()">⬅️ Back</button>
   </div>
 
-  <footer>© 2025 Project Gallery | Line Follower Robot</footer>
+  <footer>© 2025 Project Gallery | Light Follower Robot</footer>
 
   <script>
     function copyCode() {
@@ -226,7 +214,7 @@ void stopRobot() {
       const blob = new Blob([code], { type: "text/plain" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "line_follower_robot.ino";
+      link.download = "light_follower_robot.ino";
       link.click();
     }
 

@@ -1,119 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Obstacle Avoider Robot</title>
-<style>
-body{margin:0;font-family:Poppins;background:#0d1117;color:#e6edf3}
-header,footer{background:#161b22;color:#58a6ff;text-align:center;padding:20px}
-.container{max-width:900px;margin:40px auto;background:#161b22;border-radius:10px;padding:30px}
-h2{color:#ffcc00}
-pre{background:#000;color:#00ff99;padding:20px;border-radius:8px;overflow-x:auto;font-family:"Courier New";font-size:15px}
-.btn-group{display:flex;justify-content:center;gap:15px;margin-top:25px}
-.btn{padding:10px 20px;border:none;border-radius:25px;color:white;cursor:pointer;font-weight:600;transition:all .3s}
-.btn-back{background:linear-gradient(90deg,#ff4d4d,#ff9900)}
-.btn-download{background:linear-gradient(90deg,#007bff,#00d4ff)}
-.btn-edit{background:linear-gradient(90deg,#4CAF50,#00FF99)}
-.btn-copy{background:linear-gradient(90deg,#9b59b6,#8e44ad)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obstacle Avoider Robot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d1117;
+      color: #e0e0e0;
+    }
+
+    header {
+      background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+      padding: 20px;
+      font-size: 22px;
+      font-weight: 600;
+      color: white;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      margin: 40px auto;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .left-panel, .right-panel {
+      background-color: #161b22;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .left-panel {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .right-panel {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    h2 {
+      color: #06b6d4;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      line-height: 1.8;
+    }
+
+    .project-image {
+      width: 80%;
+      display: block;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+
+    pre {
+      background-color: black;
+      color: #00ff66;
+      padding: 20px;
+      border-radius: 10px;
+      line-height: 1.6;
+      font-size: 14px;
+      max-height: 400px;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .copy { background-color: #9333ea; color: white; }
+    .download { background-color: #2563eb; color: white; }
+    .edit { background-color: #10b981; color: white; }
+    .back { background-color: #f59e0b; color: white; }
+
+    button:hover { transform: scale(1.05); }
+
+    footer {
+      text-align: center;
+      color: #aaa;
+      padding: 20px;
+      font-size: 14px;
+      border-top: 1px solid #222;
+    }
+  </style>
 </head>
 <body>
-<header>🤖 Obstacle Avoider Robot</header>
-<div class="container">
-<h2>📘 Description</h2>
-<p>This robot automatically avoids obstacles using an ultrasonic sensor and Arduino. It is ideal for intermediate-level robotics learners.</p>
+  <header>🚧 Obstacle Avoider Robot</header>
 
-<h2>🔧 Components</h2>
-<ul>
-<li>Arduino Uno</li>
-<li>Ultrasonic Sensor (HC-SR04)</li>
-<li>Servo Motor</li>
-<li>Motor Driver L293D</li>
-<li>DC Motors and Chassis</li>
-</ul>
+  <div class="container">
+    <!-- Left Side -->
+    <div class="left-panel">
+      <h2>📘 Description</h2>
+      <p>
+        The Obstacle Avoider Robot uses an ultrasonic sensor to detect obstacles and automatically avoids them. 
+        It continuously scans the front area; when an obstacle is detected within a set distance, 
+        the robot turns left or right to find a clear path. This project is a great example of autonomous robotic movement.
+      </p>
 
-<h2>💻 Code</h2>
-<pre id="codeBox">
-// Obstacle Avoider Robot Code
-#include <Servo.h>
-Servo servo;
-int trig=9, echo=10, motor1=4, motor2=5, motor3=6, motor4=7;
-long duration; int distance;
+      <h2>🔧 Components</h2>
+      <ul>
+        <li>Arduino UNO</li>
+        <li>HC-SR04 Ultrasonic Sensor</li>
+        <li>L293D Motor Driver Module</li>
+        <li>DC Motors (2)</li>
+        <li>Robot Chassis</li>
+        <li>Battery Pack</li>
+        <li>Jumper Wires</li>
+      </ul>
+
+      <img src="https://cdn.shopify.com/s/files/1/0300/6424/6919/articles/obstacle-avoiding-robo-car_06434d7f-616b-46cd-8ddb-ab2a3ec414fc_750x.jpg?v=1672131594" alt="Obstacle Avoider Robot" class="project-image">
+    </div>
+
+    <!-- Right Side -->
+    <div class="right-panel">
+      <h2>💻 Code</h2>
+      <pre id="code">
+#define trigPin 9
+#define echoPin 10
+#define motor1Pin1 2
+#define motor1Pin2 3
+#define motor2Pin1 4
+#define motor2Pin2 5
+
+long duration;
+int distance;
 
 void setup() {
-  servo.attach(3);
-  pinMode(trig, OUTPUT);
-  pinMode(echo, INPUT);
-  pinMode(motor1, OUTPUT); pinMode(motor2, OUTPUT);
-  pinMode(motor3, OUTPUT); pinMode(motor4, OUTPUT);
-  servo.write(90);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop() {
-  distance = getDistance();
-  if(distance < 15) {
-    stopMotors();
-    servo.write(0);
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+
+  Serial.print("Distance: ");
+  Serial.println(distance);
+
+  if (distance < 20) {
+    stopRobot();
     delay(500);
-    int left = getDistance();
-    servo.write(180);
-    delay(500);
-    int right = getDistance();
-    servo.write(90);
-    if(left > right) turnLeft();
-    else turnRight();
-  } else moveForward();
+    backward();
+    delay(400);
+    left();
+    delay(400);
+  } else {
+    forward();
+  }
 }
 
-int getDistance(){
-  digitalWrite(trig, LOW); delayMicroseconds(2);
-  digitalWrite(trig, HIGH); delayMicroseconds(10);
-  digitalWrite(trig, LOW);
-  duration = pulseIn(echo, HIGH);
-  return duration*0.034/2;
+void forward() {
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor2Pin2, LOW);
 }
 
-void moveForward(){
-  digitalWrite(motor1,HIGH);digitalWrite(motor2,LOW);
-  digitalWrite(motor3,HIGH);digitalWrite(motor4,LOW);
+void backward() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
 }
 
-void stopMotors(){
-  digitalWrite(motor1,LOW);digitalWrite(motor2,LOW);
-  digitalWrite(motor3,LOW);digitalWrite(motor4,LOW);
+void left() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor2Pin2, LOW);
 }
 
-void turnLeft(){
-  digitalWrite(motor1,LOW);digitalWrite(motor2,HIGH);
-  digitalWrite(motor3,HIGH);digitalWrite(motor4,LOW);
-  delay(600); stopMotors();
+void right() {
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
 }
 
-void turnRight(){
-  digitalWrite(motor1,HIGH);digitalWrite(motor2,LOW);
-  digitalWrite(motor3,LOW);digitalWrite(motor4,HIGH);
-  delay(600); stopMotors();
+void stopRobot() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, LOW);
 }
-</pre>
+      </pre>
+    </div>
+  </div>
 
-<div class="btn-group">
-<button class="btn btn-back" onclick="goBack()">⬅ Back</button>
-<button class="btn btn-copy" onclick="copyCode()">📋 Copy</button>
-<button class="btn btn-download" onclick="downloadCode()">⬇ Download</button>
-<button class="btn btn-edit" onclick="toggleEdit()">✏ Edit</button>
-</div>
-</div>
+  <div class="buttons">
+    <button class="copy" onclick="copyCode()">📋 Copy</button>
+    <button class="download" onclick="downloadCode()">⬇️ Download</button>
+    <button class="edit" onclick="editCode()">✏️ Edit</button>
+    <button class="back" onclick="goBack()">⬅️ Back</button>
+  </div>
 
-<footer>© 2025 Robotics Project Gallery | Obstacle Avoider</footer>
+  <footer>© 2025 Project Gallery | Obstacle Avoider Robot</footer>
 
-<script>
-const box=document.getElementById('codeBox');
-function goBack(){window.location.href='../index.html'}
-function copyCode(){navigator.clipboard.writeText(box.innerText);alert('✅ Code copied!')}
-function downloadCode(){const blob=new Blob([box.innerText],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='obstacle_avoider.txt';a.click()}
-function toggleEdit(){box.contentEditable=box.contentEditable==='true'?'false':'true';alert(box.contentEditable==='true'?'📝 Edit mode ON':'💾 Edit mode OFF')}
-</script>
+  <script>
+    function copyCode() {
+      const code = document.getElementById("code").innerText;
+      navigator.clipboard.writeText(code);
+      alert("✅ Code copied to clipboard!");
+    }
+
+    function downloadCode() {
+      const code = document.getElementById("code").innerText;
+      const blob = new Blob([code], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "obstacle_avoider_robot.ino";
+      link.click();
+    }
+
+    function editCode() {
+      const codeBlock = document.getElementById("code");
+      const newCode = prompt("Edit your code below:", codeBlock.innerText);
+      if (newCode !== null) codeBlock.innerText = newCode;
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </body>
 </html>

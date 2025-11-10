@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Line Follower Robot</title>
+  <title>IoT Home Automation</title>
   <style>
     body {
       margin: 0;
@@ -49,8 +49,11 @@
     }
 
     h2 {
-      color: #22c55e;
+      color: #58a6ff;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     ul {
@@ -58,7 +61,7 @@
     }
 
     .project-image {
-      width: 60%;
+      width: 80%;
       display: block;
       margin: 20px auto;
       border-radius: 10px;
@@ -71,9 +74,9 @@
       border-radius: 10px;
       line-height: 1.6;
       font-size: 14px;
-      max-height: 400px;
-      overflow-y: auto;
-      overflow-x: auto;
+      max-height: 400px;       /* Fixed height for scroll */
+      overflow-y: auto;        /* Vertical scroll */
+      overflow-x: auto;        /* Horizontal scroll */
     }
 
     .buttons {
@@ -110,96 +113,69 @@
   </style>
 </head>
 <body>
-  <header>🟡 Line Follower Robot</header>
+  <header>🏠 IoT Home Automation</header>
 
   <div class="container">
     <!-- Left Side -->
     <div class="left-panel">
       <h2>📘 Description</h2>
       <p>
-        The Line Follower Robot follows a black or white line on the floor using IR sensors.
-        The sensors detect the difference in reflectivity between the line and the surface.
-        Based on this detection, the robot automatically adjusts its path to stay on track.
+        The IoT Home Automation System allows users to control electrical appliances such as lights and fans using a smartphone 
+        via Wi-Fi connection. It uses the ESP8266 NodeMCU microcontroller and can be integrated with platforms like Blynk or 
+        Google Assistant for voice-controlled automation.
       </p>
 
       <h2>🔧 Components</h2>
       <ul>
-        <li>Arduino UNO</li>
-        <li>IR Sensor Module (2 or 3)</li>
-        <li>L293D Motor Driver Module</li>
-        <li>DC Motors (2)</li>
-        <li>Robot Chassis</li>
-        <li>Battery Pack</li>
-        <li>Connecting Wires</li>
+        <li>NodeMCU (ESP8266)</li>
+        <li>Relay Module (4-Channel)</li>
+        <li>Light Bulb / Fan</li>
+        <li>Jumper Wires</li>
+        <li>Blynk App (Android/iOS)</li>
+        <li>Power Supply</li>
       </ul>
 
-      <img src="https://i1.wp.com/www.puntoflotante.net/LINE-FOLLOWER-ROBOT-PROTOBOARD5.jpg?strip=all" alt="Line Follower Robot" class="project-image">
+      <img src="https://www.fusioninformatics.com/blog/wp-content/uploads/2019/09/IoT-For-Home-Automation.jpg" alt="IoT Home Automation System" class="project-image">
     </div>
 
     <!-- Right Side -->
     <div class="right-panel">
       <h2>💻 Code</h2>
       <pre id="code">
-#define leftSensor 2
-#define rightSensor 3
-#define leftMotor1 4
-#define leftMotor2 5
-#define rightMotor1 6
-#define rightMotor2 7
+#define BLYNK_PRINT Serial
+#include &lt;ESP8266WiFi.h&gt;
+#include &lt;BlynkSimpleEsp8266.h&gt;
+
+char auth[] = "YourAuthToken";     // Blynk Auth Token
+char ssid[] = "YourWiFiSSID";      // Wi-Fi SSID
+char pass[] = "YourWiFiPassword";  // Wi-Fi Password
+
+int relay1 = D1;   // Light
+int relay2 = D2;   // Fan
 
 void setup() {
-  pinMode(leftSensor, INPUT);
-  pinMode(rightSensor, INPUT);
-  pinMode(leftMotor1, OUTPUT);
-  pinMode(leftMotor2, OUTPUT);
-  pinMode(rightMotor1, OUTPUT);
-  pinMode(rightMotor2, OUTPUT);
+  Serial.begin(9600);
+  Blynk.begin(auth, ssid, pass);
+
+  pinMode(relay1, OUTPUT);
+  pinMode(relay2, OUTPUT);
+
+  digitalWrite(relay1, HIGH);
+  digitalWrite(relay2, HIGH);
+}
+
+BLYNK_WRITE(V1) {
+  int state = param.asInt();
+  digitalWrite(relay1, state ? LOW : HIGH);
+}
+
+BLYNK_WRITE(V2) {
+  int state = param.asInt();
+  digitalWrite(relay2, state ? LOW : HIGH);
 }
 
 void loop() {
-  int left = digitalRead(leftSensor);
-  int right = digitalRead(rightSensor);
-
-  if (left == LOW && right == LOW) {
-    forward();
-  }
-  else if (left == HIGH && right == LOW) {
-    leftTurn();
-  }
-  else if (left == LOW && right == HIGH) {
-    rightTurn();
-  }
-  else {
-    stopRobot();
-  }
-}
-
-void forward() {
-  digitalWrite(leftMotor1, HIGH);
-  digitalWrite(leftMotor2, LOW);
-  digitalWrite(rightMotor1, HIGH);
-  digitalWrite(rightMotor2, LOW);
-}
-
-void leftTurn() {
-  digitalWrite(leftMotor1, LOW);
-  digitalWrite(leftMotor2, HIGH);
-  digitalWrite(rightMotor1, HIGH);
-  digitalWrite(rightMotor2, LOW);
-}
-
-void rightTurn() {
-  digitalWrite(leftMotor1, HIGH);
-  digitalWrite(leftMotor2, LOW);
-  digitalWrite(rightMotor1, LOW);
-  digitalWrite(rightMotor2, HIGH);
-}
-
-void stopRobot() {
-  digitalWrite(leftMotor1, LOW);
-  digitalWrite(leftMotor2, LOW);
-  digitalWrite(rightMotor1, LOW);
-  digitalWrite(rightMotor2, LOW);
+  Blynk.run();
 }
       </pre>
     </div>
@@ -212,7 +188,7 @@ void stopRobot() {
     <button class="back" onclick="goBack()">⬅️ Back</button>
   </div>
 
-  <footer>© 2025 Project Gallery | Line Follower Robot</footer>
+  <footer>© 2025 Project Gallery | IoT Home Automation</footer>
 
   <script>
     function copyCode() {
@@ -226,7 +202,7 @@ void stopRobot() {
       const blob = new Blob([code], { type: "text/plain" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "line_follower_robot.ino";
+      link.download = "iot_home_automation.ino";
       link.click();
     }
 
